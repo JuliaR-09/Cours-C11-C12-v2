@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours – Mouvement & Énergie – C11 & C12</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:        #0F6E56;
+  --teal-mid:    #1D9E75;
+  --teal-light:  #E1F5EE;
+  --teal-xlight: #F0FBF6;
+  --amber:       #9A5F0F;
+  --amber-light: #FDF3DC;
+  --blue:        #185FA5;
+  --blue-light:  #DCE9F9;
+  --purple:      #534AB7;
+  --purple-light:#EEEDFE;
+  --red:         #A32D2D;
+  --red-light:   #FDEAEA;
+  --dark:        #1a1a2e;
+  --gray-light:  #F5F4F0;
+  --gray-mid:    #D3D1C7;
+  --text:        #2C2C2A;
+  --muted:       #6B6A65;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: #ECEAE4;
+  padding: 12px;
+  line-height: 1.7;
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.10);
+}
+
+/* ── COVER ── */
+.cover {
+  background: var(--dark);
+  padding: 36px 20px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content:''; position:absolute; top:-50px; right:-50px;
+  width:180px; height:180px; border-radius:50%;
+  background:rgba(29,158,117,.12);
+}
+.cover .tag {
+  display:inline-block;
+  background:rgba(29,158,117,.25); color:#9FE1CB;
+  font-size:10.5px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; padding:3px 12px; border-radius:20px;
+  margin-bottom:14px; position:relative; z-index:1;
+}
+.cover h1 {
+  font-size:26px; font-weight:700; color:#fff;
+  margin-bottom:10px; position:relative; z-index:1;
+}
+.cover p { font-size:12.5px; color:#9FE1CB; font-style:italic; position:relative; z-index:1; }
+
+/* ── PART BANNER ── */
+.banner {
+  padding:18px 20px 15px;
+}
+.banner.teal   { background:var(--teal); }
+.banner.purple { background:var(--purple); }
+.banner h2 { font-size:18px; font-weight:700; color:#fff; }
+.banner p  { font-size:12px; color:rgba(255,255,255,.7); margin-top:4px; font-style:italic; }
+
+/* ── CONTENT ── */
+.content { padding: 18px 16px; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-size:16px; font-weight:700; color:var(--dark);
+  margin:28px 0 10px; padding-left:12px;
+  border-left:4px solid var(--teal-mid);
+}
+.sec-title.purple { border-left-color:var(--purple); }
+.sec-title:first-child { margin-top:0; }
+
+/* ── SUB TITLE ── */
+.sub { font-size:14px; font-weight:600; color:var(--teal); margin:16px 0 6px; }
+.sub.amber { color:var(--amber); }
+.sub.purple { color:var(--purple); }
+
+/* ── FORMULA ── */
+.formula {
+  background:var(--teal-light); border:1.5px solid var(--teal-mid);
+  border-radius:10px; padding:11px 14px; text-align:center;
+  font-family:'DM Mono',monospace; font-size:14px; font-weight:500;
+  color:var(--teal); margin:10px 0; line-height:1.5; overflow-x:auto;
+}
+.formula.amber  { background:var(--amber-light);  border-color:var(--amber);  color:var(--amber); }
+.formula.gray   { background:var(--gray-light);   border-color:var(--gray-mid); color:var(--dark);}
+.formula.purple { background:var(--purple-light); border-color:var(--purple); color:var(--purple);}
+.formula.sm     { font-size:12.5px; padding:7px 11px; margin:6px 0; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius:0 8px 8px 0;
+  padding:10px 13px; margin:10px 0;
+  border-left:4px solid var(--teal-mid);
+}
+.callout .ch { font-size:10.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; margin-bottom:5px; color:var(--teal); }
+.callout .cb { font-size:12.5px; line-height:1.6; color:var(--text); }
+.callout.def  { background:var(--gray-light);   border-color:var(--dark); }
+.callout.def .ch { color:var(--dark); }
+.callout.tip  { background:var(--teal-light);   border-color:var(--teal-mid); }
+.callout.warn { background:var(--amber-light);  border-color:var(--amber); }
+.callout.warn .ch { color:var(--amber); }
+.callout.ex   { background:var(--blue-light);   border-color:var(--blue); }
+.callout.ex .ch { color:var(--blue); }
+
+/* ── CARD ── */
+.card {
+  background:var(--gray-light); border:1px solid var(--gray-mid);
+  border-radius:10px; padding:12px 14px; margin:6px 0;
+}
+.card.teal   { background:var(--teal-light);   border-color:var(--teal); }
+.card.amber  { background:var(--amber-light);  border-color:var(--amber); }
+.card.blue   { background:var(--blue-light);   border-color:var(--blue); }
+.card.purple { background:var(--purple-light); border-color:var(--purple); }
+.clabel {
+  font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; margin-bottom:6px; color:var(--teal);
+}
+.card.amber .clabel { color:var(--amber); }
+.card.blue  .clabel { color:var(--blue); }
+.card.purple .clabel { color:var(--purple); }
+
+/* ── GRID ── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:10px 0; }
+
+/* ── TABLE ── */
+.tbl { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+.tbl th { background:var(--teal-mid); color:#fff; font-weight:600; padding:7px 9px; text-align:left; }
+.tbl td { padding:6px 9px; border:1px solid var(--gray-mid); vertical-align:top; line-height:1.45; }
+.tbl tr:nth-child(even) td { background:var(--gray-light); }
+
+/* ── STEPS ── */
+.step { display:flex; align-items:flex-start; gap:9px; margin-bottom:8px; }
+.snum {
+  min-width:23px; height:23px;
+  background:var(--teal-mid); color:#fff;
+  border-radius:50%; font-size:11.5px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:2px;
+}
+.stxt { font-size:13px; line-height:1.6; }
+
+/* ── KEY FACT ── */
+.kf {
+  display:flex; align-items:center; gap:10px;
+  background:var(--dark); color:#fff;
+  border-radius:10px; padding:11px 14px; margin:10px 0;
+  font-size:13px; font-weight:500; line-height:1.5;
+}
+.kf .ki { font-size:20px; flex-shrink:0; }
+
+/* ── HIGHLIGHT ── */
+.hl {
+  background:var(--teal-xlight); border-radius:8px;
+  padding:9px 13px; margin:8px 0;
+  font-size:13px; color:var(--teal); font-weight:500; line-height:1.5;
+}
+
+/* ── VECTORS ── */
+.v {
+  position:relative; display:inline-block; padding-top:.18em;
+}
+.v::after {
+  content:"→"; position:absolute; left:0; right:0; top:-.5em;
+  font-size:.72em; text-align:center; line-height:1; pointer-events:none;
+}
+
+/* ── HR ── */
+hr { border:none; border-top:1px solid var(--gray-mid); margin:18px 0; }
+
+/* ── FOOTER ── */
+.footer {
+  background:var(--teal-mid); padding:14px 16px;
+  text-align:center; font-size:12px;
+  color:rgba(255,255,255,.88); font-style:italic;
+}
+
+/* ── BODY ── */
+p { font-size:13.5px; line-height:1.7; margin:5px 0; }
+b { font-weight:600; }
+ul { padding-left:18px; margin:5px 0; }
+li { font-size:13px; line-height:1.7; }
+small { font-size:11.5px; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="tag">Physique-Chimie · Lycée</div>
+  <h1>Mouvement &amp; Énergie</h1>
+  <p>C11 · Mouvement d'un système &nbsp;|&nbsp; C12 · Aspects énergétiques</p>
+</div>
+
+<!-- ═══════ C11 ═══════ -->
+<div class="banner teal">
+  <h2>🏃 Chapitre 11 — Mouvement</h2>
+  <p>Comment décrire et quantifier le mouvement d'un objet ?</p>
+</div>
+
+<div class="content">
+
+<div class="sec-title">I. Rappels essentiels</div>
+
+<div class="callout def">
+  <div class="ch">📖 Définition</div>
+  <div class="cb">Un <b>système mécanique</b> est un objet dont on étudie le mouvement. Le <b>référentiel</b> est le solide par rapport auquel on observe ce mouvement. La trajectoire et la vitesse <b>dépendent du référentiel choisi</b>.</div>
+</div>
+
+<div class="sub">Les référentiels galiléens</div>
+<div class="g3">
+  <div class="card teal">
+    <div class="clabel">Terrestre</div>
+    <p style="font-size:11.5px;">Surface de la Terre — utilisé dans quasiment tous les exercices.</p>
+  </div>
+  <div class="card blue">
+    <div class="clabel" style="color:var(--blue);">Géocentrique</div>
+    <p style="font-size:11.5px;">Centre de la Terre — satellites.</p>
+  </div>
+  <div class="card purple">
+    <div class="clabel" style="color:var(--purple);">Héliocentrique</div>
+    <p style="font-size:11.5px;">Centre du Soleil — planètes.</p>
+  </div>
+</div>
+
+<div class="callout tip">
+  <div class="ch">💡 Astuce</div>
+  <div class="cb">Commence toujours par écrire : <b>"Système : {…} — Référentiel : terrestre"</b>. Le correcteur le note !</div>
+</div>
+
+<hr>
+
+<div class="sec-title">II. Le vecteur vitesse instantanée</div>
+
+<p>La vitesse en M<sub>i</sub> est approchée par la vitesse moyenne calculée sur un court intervalle, à partir des deux positions voisines :</p>
+
+<div class="formula">v<sub>i</sub> = M<sub>i</sub>M<sub>i+1</sub> &divide; (t<sub>i+1</sub> &minus; t<sub>i</sub>)</div>
+
+<div class="g2">
+  <div>
+    <p><b>M<sub>i</sub>M<sub>i+1</sub></b> : distance réelle, <b>en m</b>.</p>
+    <p><b>t<sub>i+1</sub>&minus;t<sub>i</sub></b> : durée, <b>en s</b>.</p>
+    <div class="callout warn" style="margin-top:8px;">
+      <div class="ch">⚠ Attention</div>
+      <div class="cb">Les positions sur un schéma sont en cm. Convertir en m ET tenir compte de l'échelle !</div>
+    </div>
+  </div>
+  <div class="card teal">
+    <div class="clabel">4 caractéristiques de <span class="v">v</span><sub>i</sub></div>
+    <ul>
+      <li><b>Origine :</b> M<sub>i</sub></li>
+      <li><b>Direction :</b> tangente</li>
+      <li><b>Sens :</b> mvt</li>
+      <li><b>Norme :</b> v<sub>i</sub> (m/s)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sub">Utiliser l'échelle des distances</div>
+<div class="formula sm gray">Dist. réelle = (réf. réelle &times; mesure) &divide; longueur réf. mesurée</div>
+<div class="callout ex">
+  <div class="ch">📝 Exemple du cours</div>
+  <div class="cb">Échelle : 20 cm réel &harr; 5,2 cm mesuré. G<sub>3</sub>G<sub>4</sub> mesuré = 0,45 cm.<br>Dist. réelle = 20&times;0,45/5,2 = <b>1,7 cm = 0,017 m</b><br>v<sub>3</sub> = 0,017 &divide; 0,050 = <b>0,34 m/s</b></div>
+</div>
+
+<div class="sub">Tracer le vecteur <span class="v">v</span><sub>i</sub></div>
+<div class="formula sm gray">Longueur vecteur = v &divide; valeur de l'échelle des vitesses</div>
+<div class="callout ex">
+  <div class="ch">📝 Exemple</div>
+  <div class="cb">v = 0,34 m/s, échelle 1 cm &harr; 0,20 m/s → <span class="v">v</span><sub>3</sub> = 0,34/0,20 = <b>1,7 cm</b></div>
+</div>
+
+<hr>
+
+<div class="sec-title">III. Le vecteur &Delta;<span class="v">v</span></div>
+
+<p>Il décrit comment la vitesse change entre deux instants. Directement lié aux forces (2<sup>e</sup> loi de Newton).</p>
+<div class="formula">&Delta;<span class="v">v</span><sub>(i&rarr;i+1)</sub> = <span class="v">v</span><sub>i+1</sub> &minus; <span class="v">v</span><sub>i</sub></div>
+
+<div class="sub">Construction graphique</div>
+<div class="step"><div class="snum">1</div><div class="stxt">Tracer <span class="v">v</span><sub>i</sub> et <span class="v">v</span><sub>i+1</sub> via l'échelle des vitesses.</div></div>
+<div class="step"><div class="snum">2</div><div class="stxt">Au point M<sub>i+1</sub>, reporter &minus;<span class="v">v</span><sub>i</sub> à l'extrémité de <span class="v">v</span><sub>i+1</sub>.</div></div>
+<div class="step"><div class="snum">3</div><div class="stxt">&Delta;<span class="v">v</span> va de l'origine de <span class="v">v</span><sub>i+1</sub> à l'extrémité de &minus;<span class="v">v</span><sub>i</sub>.</div></div>
+<div class="step"><div class="snum">4</div><div class="stxt">Mesurer &Delta;<span class="v">v</span> puis lire la valeur via l'échelle des vitesses.</div></div>
+
+<table class="tbl" style="margin-top:10px;">
+  <tr><th>Mouvement</th><th>Sens &Delta;<span class="v">v</span></th><th>Norme &Delta;v</th></tr>
+  <tr><td>Rectil. <b>accéléré</b></td><td>Sens du mvt</td><td>v<sub>3</sub>&minus;v<sub>2</sub></td></tr>
+  <tr><td>Rectil. <b>décéléré</b></td><td>Opposé</td><td>v<sub>2</sub>&minus;v<sub>3</sub></td></tr>
+  <tr><td><b>Curviligne</b></td><td colspan="2">Construction obligatoire ! &Delta;v &ne; v<sub>3</sub>&minus;v<sub>2</sub></td></tr>
+</table>
+
+<div class="callout warn">
+  <div class="ch">⚠ Piège fréquent</div>
+  <div class="cb">Pour un mouvement courbe, ne jamais faire &Delta;v = v<sub>3</sub>&minus;v<sub>2</sub>. Ce sont des scalaires, pas des vecteurs : la soustraction vectorielle donne un résultat différent !</div>
+</div>
+
+<hr>
+
+<div class="sec-title">IV. L'effet des forces</div>
+
+<div class="callout def">
+  <div class="ch">📖 Définition</div>
+  <div class="cb">Une <b>force</b> modélise une action subie par un objet. Elle peut modifier sa trajectoire et/ou sa vitesse. On la représente par un vecteur (origine, direction, sens, norme).</div>
+</div>
+
+<div class="sub">1ère loi de Newton — Principe d'inertie</div>
+<div class="formula gray">&Sigma;<span class="v">F</span> = <span class="v">0</span> &hArr; &Delta;<span class="v">v</span> = <span class="v">0</span> &hArr; v = constante</div>
+<div class="kf"><span class="ki">💡</span><span>Le système est <b>immobile</b> ou en mvt <b>rectiligne uniforme</b>.</span></div>
+
+<div class="sub">2<sup>e</sup> loi de Newton — Relation approchée</div>
+<div class="formula">&Sigma;<span class="v">F</span> = m &times; &Delta;<span class="v">v</span> &divide; &Delta;t</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="clabel">Ce que ça implique</div>
+    <ul>
+      <li>&Sigma;<span class="v">F</span> et &Delta;<span class="v">v</span> : même dir. &amp; sens</li>
+      <li>m grande → force grande nécessaire</li>
+      <li>&Delta;v ∝ 1/m : m double → &Delta;v ÷ 2</li>
+    </ul>
+  </div>
+  <div class="card amber">
+    <div class="clabel">Chute libre</div>
+    <p style="font-size:12px;">Seul le poids agit :</p>
+    <div class="formula amber sm">&Delta;v = g &times; &Delta;t</div>
+    <ul style="font-size:11.5px;margin-top:5px;">
+      <li>&Delta;<span class="v">v</span> : vertical ↓</li>
+      <li>Indép. de la masse !</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout ex">
+  <div class="ch">📝 Exemple — Athlète trampoline</div>
+  <div class="cb">70 kg, chute libre, &Delta;t = 1,0 s. Au sommet v<sub>1</sub> = 0.<br>&Delta;v = 10 × 1,0 = <b>10 m/s</b> → v<sub>2</sub> = <b>10 m/s</b> à l'atterrissage.<br>La masse n'intervient pas !</div>
+</div>
+
+</div><!-- /content C11 -->
+
+<!-- ═══════ C12 ═══════ -->
+<div class="banner purple">
+  <h2>⚡ Chapitre 12 — Énergie</h2>
+  <p>Comment l'énergie se transforme et se conserve ?</p>
+</div>
+
+<div class="content">
+
+<div class="sec-title purple">I. Les trois énergies</div>
+
+<p>Un système possède de l'énergie à cause de son <b>mouvement</b> (E<sub>c</sub>) et/ou de sa <b>position</b> (E<sub>pp</sub>). La somme des deux est l'énergie mécanique E<sub>m</sub>.</p>
+
+<div class="sub">Énergie cinétique E<sub>c</sub></div>
+<div class="formula">E<sub>c</sub> = &frac12; &times; m &times; v² &nbsp;(en J)</div>
+<div class="g2">
+  <ul>
+    <li>m en kg, v en m/s</li>
+    <li>E<sub>c</sub> = 0 J si v = 0</li>
+    <li>Augmente si m ou v &uarr;</li>
+    <li>1 J = 1 kg·m²·s⁻²</li>
+  </ul>
+  <div class="callout ex">
+    <div class="ch">📝 Exemple</div>
+    <div class="cb">Cycliste 70 kg à 9,6 m/s :<br>E<sub>c</sub> = ½×70×9,6² = <b>3 226 J</b></div>
+  </div>
+</div>
+
+<div class="sub">Énergie potentielle de pesanteur E<sub>pp</sub></div>
+<div class="formula">E<sub>pp</sub> = m &times; g &times; z &nbsp;(en J)</div>
+<div class="g2">
+  <ul>
+    <li>z = altitude (m)</li>
+    <li>E<sub>pp</sub> = 0 J pour z = 0</li>
+    <li>g = 9,8 N/kg</li>
+    <li>Axe Oz vers le haut</li>
+  </ul>
+  <div class="callout ex">
+    <div class="ch">📝 Exemple</div>
+    <div class="cb">Pot de fleurs 3 kg à z = 1,5 m :<br>E<sub>pp</sub> = 3×9,81×1,5 = <b>44 J</b></div>
+  </div>
+</div>
+
+<div class="callout tip">
+  <div class="ch">💡 Choix du niveau z = 0</div>
+  <div class="cb">On choisit z = 0 librement. Prendre le point le plus bas évite les altitudes négatives.</div>
+</div>
+
+<div class="sub purple">Énergie mécanique E<sub>m</sub></div>
+<div class="formula purple">E<sub>m</sub> = E<sub>c</sub> + E<sub>pp</sub> &nbsp;(en J)</div>
+
+<table class="tbl" style="margin-top:8px;">
+  <tr><th>Situation</th><th>E<sub>c</sub></th><th>E<sub>pp</sub></th><th>E<sub>m</sub></th></tr>
+  <tr><td>Chute libre</td><td>&uarr;</td><td>&darr;</td><td>= cte</td></tr>
+  <tr><td>Montée</td><td>&darr;</td><td>&uarr;</td><td>= cte</td></tr>
+  <tr><td>Horiz. + frott.</td><td>&darr;</td><td>= cte</td><td>&darr;</td></tr>
+  <tr><td>Chute + frott.</td><td>&uarr; puis cte</td><td>&darr;</td><td>&darr;</td></tr>
+</table>
+
+<hr>
+
+<div class="sec-title purple">II. Le travail d'une force</div>
+
+<div class="callout def">
+  <div class="ch">📖 Définition</div>
+  <div class="cb">Le <b>travail</b> quantifie l'effet d'une force sur l'énergie lors d'un déplacement. C'est un transfert d'énergie, en <b>Joules</b>.</div>
+</div>
+
+<div class="formula">W(<span class="v">F</span>) = F &times; AB &times; cos &alpha;</div>
+<p style="font-size:12px;color:var(--muted);text-align:center;">&alpha; = angle entre <span class="v">F</span> et le déplacement <span class="v">AB</span></p>
+
+<div class="g3" style="margin-top:10px;">
+  <div class="card" style="background:#f0fbf5;border-color:var(--teal-mid);">
+    <div class="clabel">0°≤α&lt;90°</div>
+    <p style="font-size:12px;"><b style="color:green;">W &gt; 0</b></p>
+    <p style="font-size:11.5px;color:var(--muted);">Travail <b>moteur</b></p>
+  </div>
+  <div class="card">
+    <div class="clabel" style="color:var(--blue);">α = 90°</div>
+    <p style="font-size:12px;"><b>W = 0</b></p>
+    <p style="font-size:11.5px;color:var(--muted);">Travail <b>nul</b></p>
+  </div>
+  <div class="card" style="background:var(--red-light);border-color:var(--red);">
+    <div class="clabel" style="color:var(--red);">90°&lt;α≤180°</div>
+    <p style="font-size:12px;"><b style="color:var(--red);">W &lt; 0</b></p>
+    <p style="font-size:11.5px;color:var(--muted);">Travail <b>résistant</b></p>
+  </div>
+</div>
+
+<div class="sub">Travail du poids <span class="v">P</span> — force conservative</div>
+<div class="formula">W(<span class="v">P</span>) = m &times; g &times; (z<sub>A</sub> &minus; z<sub>B</sub>)</div>
+<div class="hl">Le poids est <b>conservatif</b> : son travail dépend uniquement des altitudes z<sub>A</sub> et z<sub>B</sub>, jamais du chemin.</div>
+<div class="g2">
+  <div class="callout tip">
+    <div class="ch">💡 Descend</div>
+    <div class="cb">z<sub>A</sub>&gt;z<sub>B</sub> → W&gt;0 (moteur)<br>E<sub>pp</sub> perdue → E<sub>c</sub></div>
+  </div>
+  <div class="callout warn">
+    <div class="ch">⚠ Monte</div>
+    <div class="cb">z<sub>A</sub>&lt;z<sub>B</sub> → W&lt;0 (résistant)<br>Il faut fournir de l'énergie</div>
+  </div>
+</div>
+
+<div class="sub amber">Travail du frottement <span class="v">f</span> — force non conservative</div>
+<div class="formula amber">W(<span class="v">f</span>) = &minus;f &times; AB</div>
+<p>Le frottement est <b>non conservatif</b> : son travail dépend du chemin. Comme <span class="v">f</span> s'oppose toujours au déplacement (&alpha;=180°), W est <b>toujours négatif</b> : il dissipe de l'énergie en chaleur.</p>
+<div class="callout ex">
+  <div class="ch">📝 Exemple — Traîneau</div>
+  <div class="cb">F<sub>4</sub> = 142 N sur 20 m → W = &minus;142×20 = <b>&minus;2 840 J = &minus;2,8 kJ</b></div>
+</div>
+
+<hr>
+
+<div class="sec-title purple">III. Théorème de l'énergie cinétique (TEC)</div>
+
+<div class="callout def">
+  <div class="ch">📖 Énoncé</div>
+  <div class="cb">La variation d'E<sub>c</sub> entre A et B est égale à la somme des travaux de <b>TOUTES</b> les forces.</div>
+</div>
+<div class="formula purple">&Delta;E<sub>c</sub> = E<sub>c,B</sub> &minus; E<sub>c,A</sub> = &Sigma; W(<span class="v">F</span>)</div>
+
+<div class="sub">Méthode pas à pas</div>
+<div class="step"><div class="snum">1</div><div class="stxt">Système + <b>référentiel terrestre</b></div></div>
+<div class="step"><div class="snum">2</div><div class="stxt"><b>Bilan des forces :</b> <span class="v">P</span>, <span class="v">R</span>, <span class="v">f</span>...</div></div>
+<div class="step"><div class="snum">3</div><div class="stxt"><b>Travaux nuls :</b> W(<span class="v">R</span>)=0 si <span class="v">R</span>&perp;déplacement</div></div>
+<div class="step"><div class="snum">4</div><div class="stxt">Écrire &Delta;E<sub>c</sub> = W(<span class="v">P</span>) + W(<span class="v">R</span>) + W(<span class="v">f</span>)</div></div>
+<div class="step"><div class="snum">5</div><div class="stxt">Remplacer chaque W + <b>isoler l'inconnue</b></div></div>
+
+<div class="callout ex">
+  <div class="ch">📝 Exemple — Toboggan</div>
+  <div class="cb">Enfant (m), longueur L, angle &theta;, v<sub>A</sub>=0 :<br>½mv<sub>B</sub>² = mg&times;L&times;sin&theta; &minus; f&times;L<br>→ <b>f = [mg×sin&theta; &minus; ½mv<sub>B</sub>²/L]</b></div>
+</div>
+
+<hr>
+
+<div class="sec-title purple">IV. Théorème variation énergie mécanique (TVEM)</div>
+
+<div class="callout def">
+  <div class="ch">📖 Énoncé</div>
+  <div class="cb">La variation d'E<sub>m</sub> est égale à la somme des travaux des <b>forces non conservatives seulement</b>. Le poids (conservatif) est déjà dans E<sub>pp</sub>.</div>
+</div>
+<div class="formula purple">&Delta;E<sub>m</sub> = E<sub>m,B</sub> &minus; E<sub>m,A</sub> = &Sigma; W(<span class="v">F</span><sub>nc</sub>)</div>
+
+<div class="g2" style="margin-top:10px;">
+  <div class="card teal">
+    <div class="clabel">Conservation</div>
+    <p style="font-size:12px;">Pas de frott. → &Delta;E<sub>m</sub>=0</p>
+    <div class="formula sm" style="margin:6px 0;">E<sub>m,A</sub> = E<sub>m,B</sub></div>
+    <p style="font-size:11.5px;">soit E<sub>c,A</sub>+E<sub>pp,A</sub> = E<sub>c,B</sub>+E<sub>pp,B</sub></p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:4px;">Ex : chute libre, Tarzan, montagnes russes</p>
+  </div>
+  <div class="card amber">
+    <div class="clabel">Non-conservation</div>
+    <p style="font-size:12px;">Avec frott. → &Delta;E<sub>m</sub>&lt;0</p>
+    <div class="formula amber sm" style="margin:6px 0;">&Delta;E<sub>m</sub>=W(<span class="v">f</span>)&lt;0</div>
+    <p style="font-size:11.5px;">E<sub>m</sub> diminue — énergie part en chaleur.</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:4px;">Ex : cycliste, bille dans un liquide</p>
+  </div>
+</div>
+
+<div class="callout ex">
+  <div class="ch">📝 Exemple — Cycliste route horizontale</div>
+  <div class="cb">E<sub>m,E</sub>=480J, E<sub>m,F</sub>=410J, EF=10 m.<br>TVEM : 410&minus;480 = &minus;70J = W(<span class="v">f</span>) = &minus;f×10<br>→ <b>f = 7,0 N</b></div>
+</div>
+
+<div class="sub" style="margin-top:16px;">TEC ou TVEM ?</div>
+<table class="tbl">
+  <tr><th>Je cherche…</th><th>J'utilise</th></tr>
+  <tr><td>Vitesse, force, distance</td><td><b>TEC</b> — toutes les forces</td></tr>
+  <tr><td>W(<span class="v">f</span>) ou &Delta;E<sub>m</sub></td><td><b>TVEM</b> — forces nc seulement</td></tr>
+  <tr><td>Chute libre sans frott.</td><td>Les deux → v=&radic;(2gh)</td></tr>
+</table>
+
+<div class="kf" style="margin-top:12px;">
+  <span class="ki">🔑</span>
+  <span>E<sub>m</sub> se conserve <b>seulement sans frottements</b>. Dès qu'il y a frottements, E<sub>m</sub> diminue obligatoirement.</span>
+</div>
+
+</div><!-- /content C12 -->
+
+<div class="footer">Bon courage ! ✨ Cours C11 &amp; C12 complet avec tous les exemples des exercices corrigés.</div>
+</div><!-- /page -->
+</body>
+</html>
